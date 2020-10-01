@@ -9,16 +9,9 @@ public class CreditCardNumber {
 	private String cvc;
 
 	public CreditCardNumber(String number, String cvc) {
-		number = removeBlanks(number);
-		if (!isNumeric(number) || number.length() != LENGTH) {
-			throw new IllegalArgumentException("A card number must have " + LENGTH + " digits.");
-		}
-		this.number = number;
-		type = getCreditCardType(number);
-		if (type == null) {
-			throw new IllegalArgumentException("This is not a valid credit card.");
-		}
-		this.cvc = removeBlanks(cvc);
+		this.number = validateNumber(number);
+        this.type = validateCreditCardType();
+        this.cvc = validateCvc(cvc);
 	}
 
 	public CreditCardType getType() {
@@ -58,5 +51,31 @@ public class CreditCardNumber {
 		return null;
 	}
 
+    private String validateNumber(String number) {
+        number = removeBlanks(number);
 
+        if (!isNumeric(number) || number.length() != LENGTH) {
+            throw new IllegalArgumentException("A card number must have " + LENGTH + " digits.");
+        }
+
+        return number;
+    }
+
+    private String validateCvc(String cvc) {
+        cvc = removeBlanks(cvc);
+        if (!isNumeric(cvc) || cvc.length() != CVC_LENGTH) {
+            throw new IllegalArgumentException("A cvc number must have " + CVC_LENGTH + " digits.");
+        }
+
+        return cvc;
+    }
+
+    private CreditCardType validateCreditCardType() {
+        CreditCardType type = getCreditCardType(number);
+        if (type == null) {
+            throw new IllegalArgumentException("This is not a valid credit card.");
+        }
+
+        return type;
+    }
 }

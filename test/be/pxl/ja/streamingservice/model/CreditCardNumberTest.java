@@ -63,4 +63,11 @@ public class CreditCardNumberTest {
 			new CreditCardNumber("7321876532147654", "123");
 		});
 	}
+
+    @Test
+    public void throwsInvalidArgumentExceptionWhenCvcTooShort() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new CreditCardNumber("  53218 76532 1476 54 ", " 1 2  ");
+        });
+    }
 }
