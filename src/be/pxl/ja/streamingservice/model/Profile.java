@@ -1,5 +1,6 @@
 package be.pxl.ja.streamingservice.model;
 
+import be.pxl.ja.streamingservice.exception.InvalidDateException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -25,6 +26,10 @@ public class Profile {
 	}
 
 	public void setDateOfBirth(LocalDate dateOfBirth) {
+        if (dateOfBirth.isAfter(LocalDate.now())) {
+            throw new InvalidDateException(dateOfBirth, "birthday", "You must choose a date before today");
+        }
+
 		this.dateOfBirth = dateOfBirth;
 	}
 
